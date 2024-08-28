@@ -15,3 +15,10 @@ def test_get_heroes(cards):
     assert [v for v in heroes if v.is_fighter()]
     assert [v for v in heroes if v.is_rogue()]
     assert [v for v in heroes if v.is_wizard()]
+
+
+def test_select_marketplace_cards(cards):
+    card_sets = cards.get_selected_card_sets(["1 A Mirror in the Dark"], debug=True)
+    card_sets.select_diverse_heroes()
+    marketplace_cards = card_sets.select_marketplace_cards()
+    assert len(marketplace_cards) == 8
