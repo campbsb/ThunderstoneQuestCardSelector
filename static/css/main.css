@@ -1,0 +1,26 @@
+html {
+    font-size: 100%;
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+body {
+    display: flex;
+}
+th.results {
+    text-align: left
+}
+td, tr {
+    padding-left: 10px;
+}
+div.centered {
+    justify-content: center;
+    align-items: center;
+}
+div.top-padded {
+    padding-top: 20px;
+}
+td {
+    vertical-align: text-top;
+}

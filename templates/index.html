@@ -1,34 +1,46 @@
 {% extends 'base.html' %}
-{% from 'bootstrap5/form.html' import render_form %}
+{% from 'bootstrap5/form.html' import render_form_row %}
 
 {% block title %}
-Thunderstone Quest Randomiser
+Thunderstone Quest Card Selector
 {% endblock %}
 
 
 {% block content %}
+<h1>Thunderstone Quest Card Selector</h1>
 
-<!--
-	TIPS about using Bootstrap-Flask:
-	https://github.com/helloflask/bootstrap-flask
-	https://bootstrap-flask.readthedocs.io/
--->
+<form method="post">
+    {{ form.csrf_token() }}
+    <table>
+        <tr>
+            <td>{{ render_form_row([form.quests_selected]) }}</td>
+            <td>
+                <table>
+                    <tr>{{ render_form_row([form.require_all_hero_classes]) }}</tr>
+                    <tr>{{ render_form_row([form.combos_per_hero], row_class='top-padded') }}</tr>
+                </table>
+            </td>
+        </tr>
+        <tr><td colspan="2">{{ render_form_row([form.submit], row_class='centered') }}</td></tr>
+    </table>
+</form>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
+<p><strong>{{ message }}</strong></p>
 
-      <h1 class="pt-5 pb-2">Thunderstone Quest Randomiser</h1>
+<p><table>
+{% for selected in selected_sets %}
+<tr><th class="results">Guardian:</th><td>{{ selected.guardian }} </td></tr>
+<tr><th class="results">Heroes:</th><td>{{ selected.heroes_csv }} ({{ selected.combo_match_count }} combos)</td></tr>
+<tr><th class="results">Monsters:</th><td>{{ selected.monsters_csv }} </td></tr>
+<tr><th class="results">Market:</th><td>{{ selected.market_csv }} </td></tr>
+<tr><th class="results">Rooms:</th><td>{{ selected.rooms_csv }} </td></tr>
+<tr><td colspan="2">&nbsp;</td></tr>
+{% endfor %}
+</table></p>
 
-      {{ render_form(form) }}
 
-      <p class="pt-5"><strong>{{ message }}</strong></p>
-
-      <p>Heroes: {{ heroes  }}</p>
-      <p>Marketplace: {{ marketplace }}</p>
-
-    </div>
-  </div>
-</div>
+<p>
+   <a href="about">About Thunderstone Quest Card Selector</a>
+</p>
 
 {% endblock %}
