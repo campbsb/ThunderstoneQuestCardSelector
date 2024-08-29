@@ -1,5 +1,5 @@
 import pytest
-from cards import Cards, SelectedCards, CardSets
+from src.cards import Cards, SelectedCards, CardSets
 
 
 @pytest.fixture()

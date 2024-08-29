@@ -1,8 +1,7 @@
+from dataclasses import dataclass, field
 import os
 import random
-from dataclasses import dataclass, field
 from typing import Dict, List
-
 import yaml
 
 class Card():
@@ -268,7 +267,7 @@ class CardSets():
             if hero not in selected.heroes:
                 selected.heroes.append(hero.copy())
 
-        raise ValueError(f"Failed to find 4 appropriate heroes! Missing {", ".join(required_classes)}")
+        raise InsufficientCardsError(f"Failed to find 4 appropriate heroes! Missing {", ".join(required_classes)}")
 
     def select_marketplace_cards(self, selected: SelectedCards, combos_per_hero=1) -> None:
         self._shuffle_and_sort(self.all_marketplace)
@@ -339,7 +338,7 @@ class CardSets():
 
 class Cards():
     def card_sets(self) -> Dict:
-        resource_dir = os.path.dirname(__file__) + "/Resources"
+        resource_dir = os.path.dirname(__file__) + "/resources"
         with open(f"{resource_dir}/cards.yaml") as fh:
             return yaml.safe_load(fh)
 

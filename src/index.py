@@ -1,14 +1,12 @@
-from flask import Flask, render_template, redirect, url_for
-from flask_bootstrap import Bootstrap5
-
-from flask_wtf import FlaskForm, CSRFProtect
 import secrets
-from wtforms import StringField, SubmitField, widgets
-from wtforms.fields.choices import SelectMultipleField, RadioField
-from wtforms.fields.simple import BooleanField
-from wtforms.validators import DataRequired, Length
 
-from cards import Cards, SelectedCards, CardSets
+from flask import Flask, render_template
+from flask_bootstrap import Bootstrap5
+from flask_wtf import FlaskForm, CSRFProtect
+from wtforms import SubmitField, widgets
+from wtforms.fields.choices import SelectMultipleField, RadioField
+
+from src.cards import Cards
 
 app = Flask(__name__)
 app.secret_key = secrets.token_urlsafe(16)
@@ -18,15 +16,18 @@ bootstrap = Bootstrap5(app)
 # Flask-WTF requires this line
 csrf = CSRFProtect(app)
 
+
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(html_tag='ul', prefix_label=False)
     option_widget = widgets.CheckboxInput()
+
 
 class NameForm(FlaskForm):
     quests_selected = MultiCheckboxField(label="Select Quests:", choices=Cards().quest_number_and_name_list())
     require_all_hero_classes = RadioField('Require all hero classes:', choices=[(1, "Yes"), (0, "No")], default=1)
     combos_per_hero = RadioField('Combos per hero:', choices=[(0, "None"), (1, "One"), (2, "Two")], default=1)
     submit = SubmitField('Generate Card Selections')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def select_quest_page():
