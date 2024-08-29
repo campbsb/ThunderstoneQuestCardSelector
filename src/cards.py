@@ -176,7 +176,7 @@ class SelectedCards():
 
         for keyword in self.marketplace_slots.keys():
             if self.marketplace_slots[keyword]["Used"] != self.marketplace_slots[keyword]["Max"]:
-                raise InsufficientCardsError(f"We have {self.marketplace_slots[keyword]["Used"]} {keyword} cards, and not {self.marketplace_slots[keyword]["Max"]}!")
+                raise InsufficientCardsError(f"We have {self.marketplace_slots[keyword]['Used']} {keyword} cards, and not {self.marketplace_slots[keyword]['Max']}!")
 
         monster_levels = sum([v.level for v in self.monsters])
         if monster_levels != 6:
@@ -215,7 +215,7 @@ class CardSets():
         for card in data.get("Monsters", []):
             self.monsters.append(Card(card))
 
-        self._debug_msg(f"Imported {data.get("Quest", "Unknown")}, total market: {len(self.all_marketplace)}")
+        self._debug_msg(f"Imported {data.get('Quest', 'Unknown')}, total market: {len(self.all_marketplace)}")
 
     def _shuffle_and_sort(self, cards: List[Card]):
         """ Shuffle the cards in the list, then sort them such that previously used cards go to the end """
@@ -267,7 +267,7 @@ class CardSets():
             if hero not in selected.heroes:
                 selected.heroes.append(hero.copy())
 
-        raise InsufficientCardsError(f"Failed to find 4 appropriate heroes! Missing {", ".join(required_classes)}")
+        raise InsufficientCardsError(f"Failed to find 4 appropriate heroes! Missing {', '.join(required_classes)}")
 
     def select_marketplace_cards(self, selected: SelectedCards, combos_per_hero=1) -> None:
         self._shuffle_and_sort(self.all_marketplace)
@@ -348,7 +348,7 @@ class Cards():
     def set_name(self, card_set):
         quest_name = card_set["Quest"]
         if "Number" in card_set:
-            quest_name = f"{card_set["Number"]} {card_set["Quest"]}"
+            quest_name = f"{card_set['Number']} {card_set['Quest']}"
         return quest_name
 
     def get_selected_card_sets(self, selected_quests, debug=False) -> CardSets:

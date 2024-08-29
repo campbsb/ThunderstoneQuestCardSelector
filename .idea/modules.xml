@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/ThunderstoneQuestRandomiser.iml" filepath="$PROJECT_DIR$/.idea/ThunderstoneQuestRandomiser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ThunderstoneQuestCardSelector.iml" filepath="$PROJECT_DIR$/.idea/ThunderstoneQuestCardSelector.iml" />
     </modules>
   </component>
 </project>
