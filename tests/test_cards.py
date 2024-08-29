@@ -21,6 +21,10 @@ def test_quest_number_and_name_list(cards):
     assert "1 A Mirror in the Dark" in cards.quest_number_and_name_list()
 
 
+def test_sets_csv(card_sets):
+    selected_cards = card_sets.select_cards()
+    assert selected_cards.quests_csv == '1'
+
 def test_diverse_heroes(card_sets, selected_cards):
     card_sets.select_diverse_heroes(selected_cards)
     assert [v for v in selected_cards.heroes if v.is_cleric()]

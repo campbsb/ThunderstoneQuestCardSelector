@@ -39,7 +39,7 @@ def select_quest_page():
         diverse_heroes = bool(form.require_all_hero_classes.data)
         combos_per_hero = int(form.combos_per_hero.data)
         try:
-            card_sets = Cards().get_selected_card_sets(selected_quests, debug=True)
+            card_sets = Cards().get_selected_card_sets(selected_quests, debug=False)
             for i in range(6):
                 selected = card_sets.select_cards(diverse_heroes=diverse_heroes, combos_per_hero=combos_per_hero)
                 selected_sets.append(selected)

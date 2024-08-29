@@ -1,7 +1,8 @@
+import re
 from dataclasses import dataclass, field
 import os
 import random
-from typing import Dict, List
+from typing import Dict, List, Set
 import yaml
 
 class Card():
@@ -79,12 +80,14 @@ class SelectedCards():
     market: List[Card] = field(default_factory=list)
     monsters: List[Card] = field(default_factory=list)
     rooms: List[Card] = field(default_factory=list)
+    quests: List = field(default_factory=set)
 
     @property
     def heroes_csv(self):
         return ", ".join([i.name for i in self.heroes])
 
     @property
+
     def market_csv(self):
         return ", ".join([i.name for i in self.market])
 
@@ -99,6 +102,13 @@ class SelectedCards():
     @property
     def combo_match_count(self):
         return sum([i.matches for i in self.heroes])
+
+    @property
+    def quests_csv(self):
+        # Sort mixed int/str list. See https://stackoverflow.com/questions/49829732/sorting-a-mixed-list-of-ints-and-strings
+        self.quests.sort(key=lambda v: (isinstance(v, str), v))
+
+        return ", ".join([str(v) for v in self.quests])
 
     def __post_init__(self):
         self.marketplace_slots = {
@@ -198,6 +208,7 @@ class CardSets():
         self.guardians: List[Card] = []
         self.monsters: List[Card] = []
         self.rooms: List[Card] = []
+        self.quests: List = []
 
     def import_set(self, data: Dict):
         for card in data.get("Heroes", []):
@@ -215,6 +226,8 @@ class CardSets():
         for card in data.get("Monsters", []):
             self.monsters.append(Card(card))
 
+        self.quests.append(data.get('Number', 'Promos'))
+
         self._debug_msg(f"Imported {data.get('Quest', 'Unknown')}, total market: {len(self.all_marketplace)}")
 
     def _shuffle_and_sort(self, cards: List[Card]):
@@ -227,6 +240,7 @@ class CardSets():
             raise InsufficientCardsError("We don't have any heroes to select from. Have you selected at least one Quest?")
 
         selected_cards = SelectedCards()
+        selected_cards.quests = self.quests
         self.select_diverse_heroes(selected_cards)
         self.select_marketplace_cards(selected_cards, combos_per_hero=combos_per_hero)
         self.select_guardian(selected_cards)

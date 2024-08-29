@@ -27,6 +27,8 @@ Thunderstone Quest Card Selector
 
 <p><strong>{{ message }}</strong></p>
 
+{% if selected_sets %}
+<p><strong>Cards taken from quests: {{ selected_sets[0].quests_csv }}</strong></p>
 <p><table>
 {% for selected in selected_sets %}
 <tr><th class="results">Guardian:</th><td>{{ selected.guardian }} </td></tr>
@@ -37,6 +39,7 @@ Thunderstone Quest Card Selector
 <tr><td colspan="2">&nbsp;</td></tr>
 {% endfor %}
 </table></p>
+{% endif %}
 
 
 <p>
